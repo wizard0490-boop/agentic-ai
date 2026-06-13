@@ -4,7 +4,7 @@ import google.generativeai as genai
 def show():
     st.title("🤖 Swastha AI Health Chatbot")
 
-    api_key = st.secrets.get("GEMINI_API_KEY", "")
+    api_key = st.secrets.get("GEMINI_API_KEY", "AQ.Ab8RN6JiEYj2bmxPMgvR57BB-UC5e8oajNUBzwZVmFNYk3Kc7Q")
 
     if not api_key:
         st.error("Gemini API key not configured.")
