@@ -1,4 +1,5 @@
 import streamlit as st
+import google.generativeai as genai
 from datetime import date
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
@@ -92,20 +93,54 @@ def show():
 
     # ── Tab 3: Medicine Info ──────────────────────────────────────────────────
     with tab3:
-        st.subheader(" Common Indian Medications Reference")
-        st.caption("Informational only – always follow your doctor's prescription")
+    st.subheader("📚 AI Medicine Information")
+    st.caption("Search any medicine and get information using Gemini AI")
 
-        search = st.text_input(" Search medication", placeholder="e.g. Metformin, Crocin")
-        meds_to_show = {k: v for k, v in COMMON_MEDICATIONS.items()
-                        if not search or search.lower() in k.lower()}
+    try:
+        genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
+        model = genai.GenerativeModel("gemini-2.5-flash")
 
-        for med_name, info in meds_to_show.items():
-            with st.expander(f" {med_name}"):
-                col1, col2 = st.columns(2)
-                col1.markdown(f"**Uses:** {info['uses']}")
-                col1.markdown(f"**Common Dose:** {info['common_dose']}")
-                col1.markdown(f"**Max Daily:** {info['max_daily']}")
-                col2.markdown(f"**Brand Names (India):** {info['brand_names']}")
+        medicine_name = st.text_input(
+            "🔍 Enter Medicine Name",
+            placeholder="e.g. Dolo 650, Crocin, Metformin, Azee 500"
+        )
+
+        if st.button("Search Medicine"):
+            if medicine_name:
+
+                with st.spinner("Searching medicine information..."):
+
+                    prompt = f"""
+                    You are Swastha AI, a healthcare assistant.
+
+                    Provide information about the medicine: {medicine_name}
+
+                    Format the answer exactly like this:
+
+                    💊 Uses
+                    💉 Common Dosage
+                    ⚠️ Side Effects
+                    🚫 Warnings
+                    🇮🇳 Common Indian Brand Names
+
+                    Keep the explanation simple and easy for normal people.
+
+                    Do not prescribe medicines.
+                    Do not diagnose diseases.
+                    Mention that users should consult a doctor.
+                    """
+
+                    response = model.generate_content(prompt)
+
+                    st.markdown(response.text)
+
+                    st.warning(
+                        "⚠️ This information is for educational purposes only and should not replace professional medical advice."
+                    )
+
+    except Exception as e:
+        st.error(f"Error: {str(e)}")
+       
                 st.warning(f"⚠️ **Warnings:** {info['warnings']}")
 
         st.divider()
