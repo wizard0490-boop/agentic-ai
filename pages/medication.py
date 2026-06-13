@@ -92,50 +92,50 @@ def show():
                     st.balloons()
 
     # ── Tab 3: Medicine Info ──────────────────────────────────────────────────
-   with tab3:
-    st.subheader("📚 AI Medicine Information")
-    st.caption("Search any medicine and get information using Gemini AI")
+    with tab3:
+        st.subheader("📚 AI Medicine Information")
+        st.caption("Search any medicine and get information using Gemini AI")
 
-    try:
-        genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-        model = genai.GenerativeModel("gemini-2.5-flash")
+        try:
+            genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
+            model = genai.GenerativeModel("gemini-2.5-flash")
 
-        medicine_name = st.text_input(
-            "🔍 Enter Medicine Name",
-            placeholder="e.g. Dolo 650, Crocin, Metformin, Azee 500"
-        )
+            medicine_name = st.text_input(
+                "🔍 Enter Medicine Name",
+                placeholder="e.g. Dolo 650, Crocin, Metformin, Azee 500"
+            )
 
-        if st.button("Search Medicine"):
-            if medicine_name:
+            if st.button("Search Medicine"):
+                if medicine_name:
 
-                with st.spinner("Searching medicine information..."):
+                    with st.spinner("Searching medicine information..."):
 
-                    prompt = f"""
-                    You are Swastha AI, a healthcare assistant.
+                        prompt = f"""
+                        You are Swastha AI, a healthcare assistant.
 
-                    Provide information about the medicine: {medicine_name}
+                        Provide information about the medicine: {medicine_name}
 
-                    Include:
-                    1. Uses
-                    2. Common Dosage
-                    3. Side Effects
-                    4. Warnings
-                    5. Indian Brand Names
+                        Include:
+                        1. Uses
+                        2. Common Dosage
+                        3. Side Effects
+                        4. Warnings
+                        5. Indian Brand Names
 
-                    Keep the explanation simple and easy to understand.
-                    Do not prescribe medicines.
-                    """
+                        Keep the explanation simple and easy to understand.
+                        Do not prescribe medicines.
+                        """
 
-                    response = model.generate_content(prompt)
+                        response = model.generate_content(prompt)
 
-                    st.markdown(response.text)
+                        st.markdown(response.text)
 
-                    st.warning(
-                        "⚠️ This information is for educational purposes only and should not replace professional medical advice."
-                    )
+                        st.warning(
+                            "⚠️ This information is for educational purposes only and should not replace professional medical advice."
+                        )
 
-    except Exception as e:
-        st.error(f"Error: {str(e)}")
+        except Exception as e:
+            st.error(f"Error: {str(e)}")
 
-    st.divider()
-    st.info("Need information about a medicine? Search above using AI.")
+        st.divider()
+        st.info("Need information about a medicine? Search above using AI.")
