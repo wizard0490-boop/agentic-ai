@@ -97,7 +97,7 @@ def show():
         st.caption("Search any medicine and get information using Gemini AI")
 
         try:
-            genai.configure(api_key=st.secrets["AQ.Ab8RN6JiEYj2bmxPMgvR57BB-UC5e8oajNUBzwZVmFNYk3Kc7Q"])
+            genai.configure(api_key=st.secrets["AQ.Ab8RN6Jaz6nBe26qE8bhk2m7dGSkHEfj82lGnqkM6ykJ5PWv3Q"])
             model = genai.GenerativeModel("gemini-2.5-flash")
 
             medicine_name = st.text_input(
