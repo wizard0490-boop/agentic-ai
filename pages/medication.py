@@ -92,11 +92,11 @@ def show():
                     st.balloons()
 
     # ── Tab 3: Medicine Info ──────────────────────────────────────────────────
-    with tab3:
-        st.subheader("📚 AI Medicine Information")
-        st.caption("Search any medicine and get information using Gemini AI")
+   with tab3:
+    st.subheader("📚 AI Medicine Information")
+    st.caption("Search any medicine and get information using Gemini AI")
 
-        try:
+    try:
         genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
         model = genai.GenerativeModel("gemini-2.5-flash")
 
@@ -115,19 +115,15 @@ def show():
 
                     Provide information about the medicine: {medicine_name}
 
-                    Format the answer exactly like this:
+                    Include:
+                    1. Uses
+                    2. Common Dosage
+                    3. Side Effects
+                    4. Warnings
+                    5. Indian Brand Names
 
-                    💊 Uses
-                    💉 Common Dosage
-                    ⚠️ Side Effects
-                    🚫 Warnings
-                    🇮🇳 Common Indian Brand Names
-
-                    Keep the explanation simple and easy for normal people.
-
+                    Keep the explanation simple and easy to understand.
                     Do not prescribe medicines.
-                    Do not diagnose diseases.
-                    Mention that users should consult a doctor.
                     """
 
                     response = model.generate_content(prompt)
@@ -138,11 +134,8 @@ def show():
                         "⚠️ This information is for educational purposes only and should not replace professional medical advice."
                     )
 
-        except Exception as e:
+    except Exception as e:
         st.error(f"Error: {str(e)}")
-       
-                st.warning(f"⚠️ **Warnings:** {info['warnings']}")
 
-        st.divider()
-        st.info(" Need info on a medication not listed here? Ask the **Health Chatbot**!")
-
+    st.divider()
+    st.info("Need information about a medicine? Search above using AI.")
