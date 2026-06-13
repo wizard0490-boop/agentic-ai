@@ -12,11 +12,8 @@ def show():
 
     genai.configure(api_key=api_key)
 
-    model = genai.GenerativeModel("gemini-1.5-flash")
-    try:
     model = genai.GenerativeModel("gemini-2.5-flash")
-    except:
-    model = genai.GenerativeModel("gemini-2.0-flash")
+ 
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
